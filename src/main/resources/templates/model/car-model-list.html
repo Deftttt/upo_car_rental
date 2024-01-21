@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: 15vw;
+            object-fit: contain;
+        }
+    </style>
+
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var transmitionType = /*[[${transmitionType}]]*/ null;
+            var order = /*[[${order}]]*/ null;
+            var fuelType = /*[[${fuelType}]]*/ null;
+            var nonActive = /*[[${nonActive}]]*/ false;
+            if (transmitionType !== null) {
+                document.getElementById('transmitionType').value = transmitionType;
+            }
+            if (order !== null) {
+                document.getElementById('order').value = order;
+            }
+            if (fuelType !== null) {
+                document.getElementById('fuelType').value = fuelType;
+            }
+            if (nonActive !== null) {
+                document.getElementById('nonActive').value = nonActive;
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+
+    <header th:insert="~{fragments/header :: header}"> </header>
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div sec:authorize="hasAnyAuthority('ADMIN', 'EMPLOYEE')">
+                <a th:href="@{/models/add}" class="btn btn-primary">Dodaj nowy model</a>
+            </div>
+
+
+            <form th:action="@{/models}" method="get">
+                <label for="transmitionType"><strong>Filtruj po rodzaju skrzyni biegów:</strong></label>
+                <select class="form-select" id="transmitionType" name="transmitionType" onchange="this.form.submit()">
+                    <option value="" th:selected="${transmitionType}">Wszystkie</option>
+                    <option value="AUTOMATIC" th:selected="${transmitionType}">Automatyczna</option>
+                    <option value="MANUAL" th:selected="${transmitionType}">Manualna</option>
+                </select>
+
+                <label for="fuelType"><strong>Filtruj po rodzaju sinlika:</strong></label>
+                <select class="form-select" id="fuelType" name="fuelType" onchange="this.form.submit()">
+                    <option value="" th:selected="${fuelType}">Wszystkie</option>
+                    <option value="GASOLINE" th:selected="${fuelType}">Benzyna</option>
+                    <option value="DIESEL" th:selected="${fuelType}">Diesel</option>
+                    <option value="ELECTRIC" th:selected="${fuelType}">Elektryczny</option>
+                    <option value="LPG" th:selected="${fuelType}">Gaz</option>
+                </select>
+
+                <div sec:authorize="hasAnyAuthority('ADMIN', 'EMPLOYEE')">
+                <label for="nonActive"><strong>Filtruj po dostępności:</strong></label>
+                <select class="form-select" id="nonActive" name="nonActive" onchange="this.form.submit()">
+                    <option value="false" th:selected="${nonActive}">Dostępne</option>
+                    <option value="true" th:selected="${nonActive}">Nie dostępne</option>
+                </select>
+                </div>
+
+                <label for="order"><strong> Sortuj według:</strong></label>
+                <select class="form-select" id="order" name="order" onchange="this.form.submit()">
+                    <option value="asc" th:selected="${order}">Cena rosnąco</option>
+                    <option value="desc" th:selected="${order}">Cena malejaco</option>
+                </select>
+            </form>
+
+
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+
+        <div th:each="m, iStat : ${carPage.content}" class="col">
+            <div class="card h-100 border-0 shadow p-4">
+
+                <img class="card-img-top"    th:src="${(m.images!=null and !m.images.isEmpty()) ? m.imageDirectory + m.images[0].location : '/model-images/000.png'}" alt="Card image cap"/>
+
+                <div class="card-body">
+                    <h4 class="card-title"><span th:text="${m.brand + ' ' + m.model}"></span></h4>
+                    <p class="card-text"><b>Rodzaj paliwa:</b> <span th:text="${m.fuelType.type}"></span></p>
+                    <p class="card-text"><b>Skrzynia biegów:</b> <span th:text="${m.transmitionType.type}"></span></p>
+                    <p class="card-text"><b>Liczba siedzeń:</b> <span th:text="${m.nOfSeats}"></span></p>
+                    <p class="card-text"><b>Wymagana kategoria:</b> <span th:text="${m.requiredCategory}"></span></p>
+                    <p class="card-text"><b>Cena za dzień:</b> <span th:text="${m.price + ' zł'}"></span></p>
+
+
+                    <a th:href="@{/models/{id}(id=${m.id})}" class="btn btn-primary stretched-link">Zobacz szczegóły</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row row-cols-auto justify-content-center mt-3">
+    <ul class="pagination" th:if="${carPage.totalPages > 0}" th:each="pageNumbers : ${pageNumbers}">
+
+        <li th:if="${pageNumbers == 1 and carPage.hasPrevious()}">
+            <a class="page-link" th:href="@{/models(size=${carPage.size}, page=${carPage.number}, order=${order}, transmitionType=${transmitionType}, fuelType=${fuelType}, nonActive=${nonActive})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <li th:class="${pageNumbers==carPage.number + 1} ? 'page-item active'">
+            <a class="page-link" th:href="@{/models(size=${carPage.size}, page=${pageNumbers}, order=${order}, transmitionType=${transmitionType}, fuelType=${fuelType}, nonActive=${nonActive})}" th:text=${pageNumbers}></a>
+        </li>
+
+        <li th:if="${pageNumbers == carPage.totalPages and carPage.hasNext()}">
+            <a class="page-link" th:href="@{/models(size=${carPage.size}, page=${carPage.number + 2}, order=${order}, transmitionType=${transmitionType}, fuelType=${fuelType}, nonActive=${nonActive})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+
+    </ul>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

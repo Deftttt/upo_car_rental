@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+<div class="container">
+    <header th:insert="~{fragments/header :: header}"> </header>
+    <div class="container d-flex justify-content-center">
+
+        <div class="card text-center">
+            <div class="card-header">
+                <h4 class="card-title">Edytuj pracownika</h4>
+            </div>
+
+            <div class="card-body">
+
+                <form th:action="@{/employees/update}"  method="post" th:object="${employeeDto}">
+
+                    <input type="hidden" th:name="employeeId" th:value="${employeeId}" />
+
+                    <div class="row g-3 mb-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="position">Stanowisko</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" aria-label="Default select example" name="position">
+                                <option th:each="ep : ${T(com.upo.springtest.enums.EmployeePosition).values()}"
+                                        th:text="${ep.position}"
+                                        th:value="${ep}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="salary" class="form-label">Wynagrodzenie</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" class="form-control" id="salary" name="salary"
+                                   th:classappend="${#fields.hasErrors('salary')} ? 'is-invalid' : ''"
+                                   th:field="*{salary}" placeholder="Podaj wynagrodzenie">
+                        </div>
+                        <div class="col-auto text text-danger">
+                            <p th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" />
+                        </div>
+                    </div>
+
+
+                    <div class="row g-3 mb-2 align-items-center justify-content-center">
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success">Potwierdź edycje</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

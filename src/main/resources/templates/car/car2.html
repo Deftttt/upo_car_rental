@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+    <title>Upo Rental</title>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://js.api.here.com/v3/3.1/mapsjs-ui.css"
+    />
+</head>
+<body>
+    <div class="container">
+        <header th:insert="~{fragments/header :: header}"> </header>
+
+    <h2 th:text="${'Samochód o nr. rejestracyjnym: ' + car.registrationNumber}"></h2>
+    <p th:text="${'Model: ' + car.carModel.brand  + ' ' + car.carModel.model}"></p>
+    <p th:text="${'Status: ' + car.carStatus.status}"></p>
+
+    <a th:href="@{/cars/update(carId=${car.id})}" class="btn btn-warning mb-2">Update</a>
+        <a th:href="@{/bookings(carId=${car.id})}" class="btn btn-primary mb-2">Wypożyczenia dla tego samochodu</a>
+        <a th:href="@{/models/{id}(id=${car.carModel.id})}" class="btn btn-info mb-2">Informacje o modelu</a>
+
+
+    <h2>Aktualna lokalizacja:</h2>
+
+    <div id="map" style="height: 500px"></div>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+
+    <script th:inline="javascript">
+          const platform = new H.service.Platform({ apikey: /*[[${mapsApiKey}]]*/"" });
+          const defaultLayers = platform.createDefaultLayers();
+
+          const map = new H.Map(
+            document.getElementById("map"),
+            defaultLayers.vector.normal.map,
+            {
+              center: { lat: 50.0618, lng: 19.9384 },
+              zoom: 13,
+              pixelRatio: window.devicePixelRatio || 1,
+            }
+          );
+
+          window.addEventListener("resize", () => map.getViewPort().resize());
+          const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+          const ui = H.ui.UI.createDefault(map, defaultLayers);
+
+          var carLatitude = [[${car.latitude}]];
+          var carLongitude = [[${car.longitude}]];
+          var rn = [[${car.registrationNumber}]];
+          var status = [[${car.carStatus.status}]];
+
+          var LocationOfMarker = { lat: carLatitude, lng: carLongitude };
+          var marker = new H.map.Marker(LocationOfMarker);
+          map.addObject(marker);
+
+
+
+           marker.addEventListener('tap', function (evt) {
+
+           var bubble = new H.ui.InfoBubble(LocationOfMarker,
+           {content: '<div style="text-align: center;"><h3>' + 'Samochód: ' + rn + '</h3><p>' + 'Status samochodu: '  + status + '</p></div>'
+           });
+           ui.addBubble(bubble);
+           }, false);
+
+
+
+        </script>
+    </div>
+</body>
+</html>

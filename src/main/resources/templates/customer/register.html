@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+<div class="container">
+    <header th:insert="~{fragments/header :: header}"> </header>
+
+    <div class="container d-flex justify-content-center">
+    <div class="card text-center border-0 shadow p-4 mb-4">
+        <div class="card-header">
+            <h4 class="card-title">Utwórz konto w naszej wypożyczalni</h4>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/register}" method="post" th:object="${userRegisterDto}">
+
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="email" class="form-label">Email</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="email" name="email"
+                               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+                               th:field="*{email}" placeholder="Podaj email">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="username" class="form-label">Login</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="username" name="username"
+                               th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''"
+                               th:field="*{username}" placeholder="Podaj login">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="lastName" class="form-label">Haslo</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="password" class="form-control" id="password" name="password"
+                               th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                               th:field="*{password}" placeholder="Podaj hasło">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="passwordConfirm" class="form-label">Potwierdz haslo</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm"
+                               th:classappend="${#fields.hasErrors('passwordConfirm')} ? 'is-invalid' : ''"
+                               th:field="*{passwordConfirm}" placeholder="Powtórz hasło">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" />
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="firstName" class="form-label">Imie</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="firstName" name="firstName"
+                               th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid' : ''"
+                               th:field="*{firstName}" placeholder="Podaj imie">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="lastName" class="form-label">Nazwisko</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="lastName" name="lastName"
+                               th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid' : ''"
+                               th:field="*{lastName}" placeholder="Podaj nazwisko">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="phoneNumber" class="form-label">Numer telefonu</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                               th:classappend="${#fields.hasErrors('phoneNumber')} ? 'is-invalid' : ''"
+                               th:field="*{phoneNumber}" placeholder="Podaj numer telefonu">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="cardNumber" class="form-label">Nr karty</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="cardNumber" name="cardNumber"
+                               th:classappend="${#fields.hasErrors('cardNumber')} ? 'is-invalid' : ''"
+                               th:field="*{cardNumber}" placeholder="Podaj nr. karty">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('cardNumber')}" th:errors="*{cardNumber}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="drivingLicenseNumber" class="form-label">Nr prawa jazdy</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="drivingLicenseNumber" name="drivingLicenseNumber"
+                               th:classappend="${#fields.hasErrors('drivingLicenseNumber')} ? 'is-invalid' : ''"
+                               th:field="*{drivingLicenseNumber}" placeholder="Podaj nr. prawa jazdy">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('drivingLicenseNumber')}" th:errors="*{drivingLicenseNumber}" />
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="city" class="form-label">Miasto</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="city" name="city"
+                               th:classappend="${#fields.hasErrors('city')} ? 'is-invalid' : ''"
+                               th:field="*{city}" placeholder="Podaj miasto">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('city')}" th:errors="*{city}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="postCode" class="form-label">Kod pocztowy</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="postCode" name="postCode"
+                               th:classappend="${#fields.hasErrors('postCode')} ? 'is-invalid' : ''"
+                               th:field="*{postCode}" placeholder="Podaj kod pocztowy">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('postCode')}" th:errors="*{postCode}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="street" class="form-label">Ulica</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="street" name="street"
+                               th:classappend="${#fields.hasErrors('street')} ? 'is-invalid' : ''"
+                               th:field="*{street}" placeholder="Podaj ulicę">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('street')}" th:errors="*{street}" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="localNumber" class="form-label">Nr domu/mieszkania</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" id="localNumber" name="localNumber"
+                               th:classappend="${#fields.hasErrors('localNumber')} ? 'is-invalid' : ''"
+                               th:field="*{localNumber}" placeholder="Podaj nr domu/mieszkania">
+                    </div>
+                    <div class="col-auto text text-danger">
+                        <p th:if="${#fields.hasErrors('localNumber')}" th:errors="*{localNumber}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+
+        </form>
+            <div class="col-auto mt-2">
+                <a th:href="@{/}" class="btn btn-primary">Powrót do strony głównej</a>
+            </div>
+    </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

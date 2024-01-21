@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+<div class="container mb-4">
+    <header th:insert="~{fragments/header :: header}"> </header>
+    <div class="card w-50 mx-auto border-0 shadow p-4">
+        <div class="text-center">
+            <h1 class="card-title">Dane użytkownika</h1>
+        </div>
+        <div class="card-body text-center">
+
+            <p class="card-text"><strong>Imie: </strong><span th:text="${user.firstName}"></span></p>
+            <p class="card-text"><strong>Nazwisko: </strong><span th:text="${user.lastName}"></span></p>
+            <p class="card-text"><strong>Email: </strong><span th:text="${user.email}"></span></p>
+            <p class="card-text"><strong>Numer telefonu: </strong><span th:text="${user.phoneNumber}"></span></p>
+            <p class="card-text"><strong>Login: </strong><span th:text="${user.username}"></span></p>
+
+            <hr/>
+            <p class="card-text"><strong>Miasto: </strong><span th:text="${user.address.city}"></span></p>
+            <p class="card-text"><strong>Kod pocztowy: </strong><span th:text="${user.address.postCode}"></span></p>
+            <p class="card-text"><strong>Ulica: </strong><span th:text="${user.address.street}"></span></p>
+            <p class="card-text"><strong>Nr domu/mieszkania: </strong><span th:text="${user.address.localNumber}"></span></p>
+
+            <hr/>
+
+            <a class="btn btn-info mb-2" th:href="@{/users/update(userId=${user.id})}">Zmień dane</a>
+
+            <div th:if="${customerId != null}">
+                <a class="btn btn-primary mb-2" th:href="@{/bookings(customerId=${customerId})}">Moje wypożyczenia</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+<div class="container justify-content-center">
+
+    <header th:insert="~{fragments/header :: header}"> </header>
+    <div class="container d-flex justify-content-center">
+    <div class="card w-50 mb-4 border-0 shadow p-4">
+
+        <img class="card-img-top" th:src="${(model.images!=null and !model.images.isEmpty()) ? model.imageDirectory + model.images[0].location : '/model-images/000.png'}" alt="Card image cap"/>
+
+        <div class="card-body">
+            <h4 class="card-title"><span th:text="${model.brand + ' ' + model.model}"></span></h4>
+            <p class="card-text"><b>Rodzaj paliwa:</b> <span th:text="${model.fuelType.type}"></span></p>
+            <p class="card-text"><b>Skrzynia biegów:</b> <span th:text="${model.transmitionType.type}"></span></p>
+            <p class="card-text"><b>Liczba siedzeń:</b> <span th:text="${model.nOfSeats}"></span></p>
+            <p class="card-text"><b>Wymagana kategoria:</b> <span th:text="${model.requiredCategory}"></span></p>
+            <p class="card-text"><b>Cena za dzień:</b> <span th:text="${model.price + ' zł'}"></span></p>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="container d-flex justify-content-center w-75">
+    <form th:action="@{/bookACar}" method="post" th:object="${bookingDto}" enctype="multipart/form-data">
+
+        <div class="row mb-4">
+            <div class="col">
+        <h4 class="mt-4">Uzupełnij szczegóły wypożyczenia:</h4>
+        <input type="hidden" name="carModelId" th:value="${model.id}">
+
+        <div class="col-auto">
+            <label for="pickupDate">Data wypożyczenia</label>
+        </div>
+        <div class="col-auto mb-2">
+            <input type="datetime-local" class="form-control" id="pickupDate" name="pickupDate"
+                   th:classappend="${#fields.hasErrors('pickupDate')} ? 'is-invalid' : ''"
+                   th:field="*{pickupDate}" required="required">
+        </div>
+        <div class="col-auto text text-danger">
+            <li th:each="error : ${errors}" th:if="${error.field == 'pickupDate'}" th:text="${error.defaultMessage}"></li>
+        </div>
+
+
+
+        <div class="col-auto">
+            <label for="returnDate">Data zwrotu</label>
+        </div>
+        <div class="col-auto mb-2">
+            <input type="datetime-local" class="form-control" id="returnDate" name="returnDate"
+                   th:classappend="${#fields.hasErrors('returnDate')} ? 'is-invalid' : ''"
+                   th:field="*{returnDate}" required="required">
+        </div>
+        <div class="col-auto text text-danger">
+            <li th:each="error : ${errors}" th:if="${error.field == 'returnDate'}" th:text="${error.defaultMessage}"></li>
+        </div>
+
+
+
+        <div class="col-auto">
+            <label for="pickupLocation">Miejsce odbioru</label>
+        </div>
+        <div class="col-auto mb-2">
+            <select th:field="*{pickupLocation}" class="form-select" id="pickupLocation" name="pickupLocation" required="required">
+                <option value="">Wybierz miejsce odbioru</option>
+                <option th:each="pl : ${pickupLocation}"
+                        th:value=${pl.id}
+                        th:text=${pl.name}>
+                </option>
+            </select>
+        </div>
+        <div class="col-auto text text-danger">
+            <p th:if="${#fields.hasErrors('pickupLocation')}" th:errors="*{pickupLocation}" />
+        </div>
+
+
+
+        <div class="col-auto">
+            <label for="returnLocation">Miejsce zostawienia</label>
+        </div>
+        <div class="col-auto mb-2">
+            <select th:field="*{returnLocation}" class="form-select" id="returnLocation" name="returnLocation" required="required">
+                <option value="">Wybierz miejsce zwrotu</option>
+                <option th:each="rl : ${returnLocation}"
+                        th:value=${rl.id}
+                        th:text=${rl.name}>
+                </option>
+            </select>
+        </div>
+        <div class="col-auto text text-danger">
+            <p th:if="${#fields.hasErrors('returnLocation')}" th:errors="*{returnLocation}" />
+        </div>
+        </div>
+
+
+
+        <div class="col">
+
+        <h4 class="mt-4">Wybierz dodatkowe doposażenie:</h4>
+        <label th:each="koszt, iterStat : ${additionalCosts}" class="list-group-item d-flex gap-2">
+            <input class="form-check-input flex-shrink-0" type="checkbox" role="switch"
+                   th:id="'flexSwitchCheck' + ${iterStat.index}" th:field="*{additionalCosts}" th:value="${koszt.id}"/>
+            <span>
+                <h5 th:text="${koszt.name + ' - ' + koszt.price + ' PLN'}"></h5>
+                <small class="d-block text-body-secondary mb-2" th:text="${koszt.description}" ></small>
+            </span>
+        </label>
+
+
+        </div>
+        </div>
+
+        <div class="row">
+        <div class="form-group mb-4 text-center">
+            <button type="submit" class="btn btn-success">Potwierdź</button>
+        </div>
+        </div>
+    </form>
+    </div>
+
+
+
+</div>
+</body>
+</html>

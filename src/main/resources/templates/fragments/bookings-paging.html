@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+
+<div class="row row-cols-auto justify-content-center mt-3">
+    <ul class="pagination" th:if="${bookingPage.totalPages > 0}" th:each="pageNumbers : ${pageNumbers}">
+
+        <li th:if="${pageNumbers == 1 and bookingPage.hasPrevious()}">
+            <a class="page-link" th:if="${employee eq null and customer eq null and car eq null}" th:href="@{/bookings(size=${bookingPage.size}, page=${bookingPage.number}, bookingStatus=${bookingStatus})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+
+            <a class="page-link" th:if="${employee ne null}" th:href="@{/bookings(employeeId=${employee.id}, size=${bookingPage.size}, page=${bookingPage.number}, bookingStatus=${bookingStatus})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+
+            <a class="page-link" th:if="${customer ne null}" th:href="@{/bookings(customerId=${customer.id}, size=${bookingPage.size}, page=${bookingPage.number}, bookingStatus=${bookingStatus})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+
+            <a class="page-link" th:if="${car ne null}" th:href="@{/bookings(carId=${car.id}, size=${bookingPage.size}, page=${bookingPage.number}, bookingStatus=${bookingStatus})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <li th:class="${pageNumbers == bookingPage.number + 1} ? 'page-item active'">
+
+            <a class="page-link" th:if="${employee ne null}" th:href="@{/bookings(employeeId=${employee.id}, size=${bookingPage.size}, page=${pageNumbers}, bookingStatus=${bookingStatus})}" th:text="${pageNumbers}"></a>
+
+            <a class="page-link" th:if="${customer ne null}" th:href="@{/bookings(customerId=${customer.id}, size=${bookingPage.size}, page=${pageNumbers}, bookingStatus=${bookingStatus})}" th:text="${pageNumbers}"></a>
+
+            <a class="page-link" th:if="${car ne null}" th:href="@{/bookings(carId=${car.id}, size=${bookingPage.size}, page=${pageNumbers}, bookingStatus=${bookingStatus})}" th:text="${pageNumbers}"></a>
+
+            <a class="page-link" th:if="${employee eq null and customer eq null and car eq null}" th:href="@{/bookings(size=${bookingPage.size}, page=${pageNumbers}, bookingStatus=${bookingStatus})}" th:text="${pageNumbers}"></a>
+        </li>
+
+        <li th:if="${pageNumbers == bookingPage.totalPages and bookingPage.hasNext()}">
+            <a class="page-link" th:if="${employee eq null and customer eq null and car eq null}" th:href="@{/bookings(size=${bookingPage.size}, page=${bookingPage.number + 2}, bookingStatus=${bookingStatus})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+
+            <a class="page-link" th:if="${employee ne null}" th:href="@{/bookings(employeeId=${employee.id}, size=${bookingPage.size}, page=${bookingPage.number + 2}, bookingStatus=${bookingStatus})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+
+            <a class="page-link" th:if="${customer ne null}" th:href="@{/bookings(customerId=${customer.id}, size=${bookingPage.size}, page=${bookingPage.number + 2}, bookingStatus=${bookingStatus})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+
+            <a class="page-link" th:if="${car ne null}" th:href="@{/bookings(carId=${car.id}, size=${bookingPage.size}, page=${bookingPage.number + 2}, bookingStatus=${bookingStatus})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+<div class="container mb-4">
+    <header th:insert="~{fragments/header :: header}"> </header>
+    <div class="row">
+        <div class="col-lx-12">
+            <div class="card border-0 shadow p-4">
+                <div class="card-body">
+                    <div class="row justify-content-center mt-4">
+                        <div class="col">
+                            <div class="text-center">
+                                <h1>Wystąpił błąd</h1>
+                                <p class="lead">Znalazłeś się nie tu gdzie powinieneś. Powróć do strony głównej</p>
+                                <p class="lead">
+                                    <a th:href="@{/}" class="btn btn-lg btn-primary">Powrót</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

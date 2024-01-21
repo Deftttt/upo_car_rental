@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+    <title>Upo Rental</title>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://js.api.here.com/v3/3.1/mapsjs-ui.css"
+    />
+</head>
+<body>
+    <div class="container">
+        <header th:insert="~{fragments/header :: header}"> </header>
+        <div id="map" style="height: 700px"></div>
+        <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+        <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+        <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+        <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+
+        <script th:inline="javascript">
+              const platform = new H.service.Platform({ apikey: /*[[${mapsApiKey}]]*/"" });
+              const defaultLayers = platform.createDefaultLayers();
+
+              const map = new H.Map(
+                document.getElementById("map"),
+                defaultLayers.vector.normal.map,
+                {
+                  center: { lat: 50.0618, lng: 19.9384 },
+                  zoom: 13,
+                  pixelRatio: window.devicePixelRatio || 1,
+                }
+              );
+
+              window.addEventListener("resize", () => map.getViewPort().resize());
+              const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+              const ui = H.ui.UI.createDefault(map, defaultLayers);
+
+              const cars = /*[[${cars}]]*/ [];
+
+              console.log(cars)
+
+              cars.forEach(car => {
+
+              var LocationOfMarker = { lat: car.latitude, lng: car.longitude };
+              var marker = new H.map.Marker(LocationOfMarker);
+              map.addObject(marker);
+
+               marker.addEventListener('tap', function (evt) {
+
+               var bubble = new H.ui.InfoBubble(LocationOfMarker,
+               {content: '<div style="text-align: center;"><h3>' + 'Samochód: ' + car.registrationNumber + '</h3><a href="/cars/' + car.id + '">Zobacz szczegóły</a></div>'
+               });
+
+               ui.addBubble(bubble);
+               }, false);
+
+              });
+
+
+
+            </script>
+        </div>
+    </body>
+</html>

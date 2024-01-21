@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+
+<div class="container">
+    <header th:insert="~{fragments/header :: header}"> </header>
+    <div class="container d-flex justify-content-center">
+
+        <div class="card text-center">
+            <div class="card-header">
+                <h4 class="card-title">Edytuj wypożyczenie</h4>
+            </div>
+
+            <div class="card-body">
+
+                <form th:action="@{/bookings/update/{bookingId}(bookingId=${bookingId})}"  method="post" th:object="${bookingUpdateDto}">
+
+
+                    <div class="row g-3 mb-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="bookingStatus">Status wypożyczenia</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" aria-label="Default select example" name="bookingStatus">
+                                <option th:each="bs : ${T(com.upo.springtest.enums.BookingStatus).values()}"
+                                        th:text="${bs.status}"
+                                        th:value="${bs}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="comment">Komentarz</label>
+                        </div>
+                        <div class="col-auto">
+                            <textarea type="text" class="form-control" id="comment" name="comment"
+                                   th:classappend="${#fields.hasErrors('comment')} ? 'is-invalid' : ''"
+                                      th:field="*{comment}" placeholder="Wpisz komentarz do wypożyczenia"></textarea>
+                        </div>
+                        <div class="col-auto text text-danger">
+                            <p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" />
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-2 align-items-center justify-content-center">
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success">Edytuj wypożyczenie</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block></th:block>
+</head>
+<body>
+<div class="container justify-content-center">
+    <header th:insert="~{fragments/header :: header}"> </header>
+    <div class="container d-flex justify-content-center">
+    <div class="card w-75 border-0 shadow p-4">
+        <div class="card-body mx-4">
+            <div class="container">
+                <p class="my-5 mx-5 text-center" style="font-size: 32px; font-weight: bold;">Dziękujemy za skorzystanie z naszej wypożyczalni!</p>
+                <div class="row">
+                    <ul class="list-unstyled">
+                        <li class="text-black"><b>Dane: </b><span th:text="${booking.customer.user.firstName} + ' ' + ${booking.customer.user.lastName}"></span></li>
+                        <li class="text-black mt-1"><b>Okres wynajmu: </b><span th:text="${#dates.format(booking.pickupDate, 'yyyy-MM-dd')} + ' - ' + ${#dates.format(booking.returnDate, 'yyyy-MM-dd')}"></span></li>
+                        <li class="text-black mt-1"><b>Miejsce odbioru: </b><span th:text="${booking.pickupLocation.name}"></span></li>
+                        <li class="text-black mt-1"><b>Miejsce zwrotu: </b><span th:text="${booking.returnLocation.name}"></span></li>
+                        <li class="text-black mt-1"><b>Opiekun wypożyczenia: </b><span th:text="${booking.employee.user.firstName} + ' ' + ${booking.employee.user.lastName} + ' tel. ' + ${booking.employee.user.phoneNumber}"></span></li>
+                    </ul>
+
+                    <h4>Koszty wypożyczenia: </h4>
+                    <hr>
+                    <div class="col-xl-10">
+                        <p>Koszt wypożyczenia samochodu</p>
+                    </div>
+                    <div class="col-xl-2">
+                        <p class="float-end"><span th:text="${bookingCost} + ' zł'"></span></p>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row" th:each="cost : ${booking.additionalCosts}">
+                    <div class="col-xl-10">
+                        <p th:text="${cost.name}"></p>
+                    </div>
+                    <div class="col-xl-2">
+                        <p class="float-end" th:text="${cost.price}  + ' zł'"></p>
+                    </div>
+                    <hr>
+                </div>
+
+                <div class="row text-black">
+
+                    <div class="col-xl-12">
+                        <p class="float-end fw-bold" th:text="'Łączny koszt: ' + ${totalBookingCost} + ' zł'"></p>
+                    </div>
+                    <hr style="border: 2px solid black;">
+                </div>
+                <div class="text-center" style="margin-top: 90px;">
+                    <p class="text-info">Kopia tego dokumentu zostanie przesłana na adres email</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+<div class="container mb-4">
+    <header th:insert="~{fragments/header :: header}"> </header>
+    <div class="card w-50 mx-auto border-0 shadow p-4">
+        <div class="text-center">
+            <h1 class="card-title">Szczegóły pracownika</h1>
+        </div>
+        <div class="card-body text-center">
+
+            <p class="card-text"><strong>Imie: </strong><span th:text="${employee.user.firstName}"></span></p>
+            <p class="card-text"><strong>Nazwisko: </strong><span th:text="${employee.user.lastName}"></span></p>
+            <p class="card-text"><strong>Email: </strong><span th:text="${employee.user.email}"></span></p>
+            <p class="card-text"><strong>Numer telefonu: </strong><span th:text="${employee.user.phoneNumber}"></span></p>
+            <p class="card-text"><strong>Login: </strong><span th:text="${employee.user.username}"></span></p>
+
+            <hr/>
+            <div th:if="${employee.user.address != null}">
+                <p class="card-text"><strong>Miasto: </strong><span th:text="${employee.user.address.city}"></span></p>
+                <p class="card-text"><strong>Kod pocztowy: </strong><span th:text="${employee.user.address.postCode}"></span></p>
+                <p class="card-text"><strong>Ulica: </strong><span th:text="${employee.user.address.street}"></span></p>
+                <p class="card-text"><strong>Nr domu/mieszkania: </strong><span th:text="${employee.user.address.localNumber}"></span></p>
+            </div>
+
+
+            <hr/>
+
+            <p class="card-text"><strong>Stanowisko: </strong><span th:text="${employee.position.position}"></span></p>
+            <p class="card-text"><strong>Wynagrodzenie: </strong><span th:text="${employee.salary}"></span></p>
+
+            <hr/>
+
+            <div class="row justify-content-center">
+            <a th:href="@{/bookings(employeeId=${employee.id})}" class="btn btn-primary mb-2" style="width:auto;">Pokaż wypożyczenia powiązane z tym pracownikiem</a>
+            </div>
+
+            <div class="row justify-content-center">
+            <a th:href="@{/employees/update(employeeId=${employee.id})}" class="btn btn-warning mb-2"  style="width:auto;">Edytuj pracownika</a>
+            </div>
+
+            <div class="row justify-content-center">
+            <form th:action="@{/employees/delete(id=${employee.id})}" method="post">
+                <button type="submit" class="btn btn-danger mb-2">Usuń pracownika</button>
+            </form>
+            </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

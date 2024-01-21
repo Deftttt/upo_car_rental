@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Upo Rental</title>
+  <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+
+  <div class="container">
+    <header th:insert="~{fragments/header :: header}"> </header>
+      <div class="container d-flex justify-content-center">
+        <div class="card text-center">
+          <div class="card-header">
+            <h4 class="card-title">Dodaj samochód</h4>
+          </div>
+
+          <div class="card-body">
+
+            <form th:action="@{/cars/add}"  method="post" th:object="${carDto}">
+
+              <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                  <label for="registrationNumber">Nr rejestracyjny</label>
+                </div>
+                <div class="col-auto">
+                  <input type="text" class="form-control" id="registrationNumber" name="registrationNumber"
+                         th:classappend="${#fields.hasErrors('registrationNumber')} ? 'is-invalid' : ''"
+                         th:field="*{registrationNumber}" placeholder="Podaj nr. rejestracyjny">
+                </div>
+                <div class="col-auto text text-danger">
+                  <p th:if="${#fields.hasErrors('registrationNumber')}" th:errors="*{registrationNumber}" />
+                </div>
+              </div>
+
+              <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                  <label for="carModelId">Model samochodu</label>
+                </div>
+                <div class="col-auto">
+                  <select class="form-select" aria-label="Default select example" name="carModelId">
+                    <option th:each="model : ${carModels}"
+                            th:value="${model.id}"
+                            th:text="${model.id} + ') ' + ${model.brand} + ' ' + ${model.model}">
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                  <label for="carStatus">Status samochodu</label>
+                </div>
+                <div class="col-auto">
+                  <select class="form-select" aria-label="Default select example" name="carStatus">
+                    <option th:each="cs : ${T(com.upo.springtest.enums.CarStatus).values()}"
+                            th:text="${cs.status}"
+                            th:value="${cs}">
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row g-3 mb-2 align-items-center justify-content-center">
+                <div class="col-auto">
+                  <button type="submit" class="btn btn-success">Dodaj samochód</button>
+                </div>
+              </div>
+
+            </form>
+
+          </div>
+      </div>
+      </div>
+  </div>
+</body>
+</html>

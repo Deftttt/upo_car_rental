@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+
+    <div class="container">
+        <header th:insert="~{fragments/header :: header}"> </header>
+
+
+
+        <div class="card text-center border-0 shadow p-4 mb-4">
+        <!-- Categories -->
+        <div class="row mt-6 justify-content-center">
+            <div class="col-12 mb-4">
+                <h2 class="text-dark fw-normal"><strong>Wybierz akcje</strong></h2>
+            </div>
+
+
+                <!-- Category -->
+                <div class="col-md-3 mb-4">
+                    <a th:href="@{/customers}" class="card align-items-center border-0 shadow text-decoration-none p-4">
+                <span class="icon-circle icon-circle-lg">
+                  <i class="bi bi-people-fill"></i>
+                </span>
+                        <span class="text-dark mt-3">
+                  Lista klientów
+                </span>
+                    </a>
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-3 mb-4">
+                    <a th:href="@{/cars}" class="card align-items-center border-0 shadow text-decoration-none p-4">
+                <span class="icon-circle icon-circle-lg">
+                  <i class="bi bi-card-list"></i>
+                </span>
+                        <span class="text-dark mt-3">
+                  Lista samochodów
+                </span>
+                    </a>
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-3 mb-4">
+                    <a th:href="@{/cars/map}" class="card align-items-center border-0 shadow text-decoration-none p-4">
+                <span class="icon-circle icon-circle-lg">
+                  <i class="bi bi-geo-alt"></i>
+                </span>
+                        <span class="text-dark mt-3">
+                  Mapa samochodów
+                </span>
+                    </a>
+                </div>
+
+        </div>
+            <div class="row mt-6 justify-content-center">
+
+                <!-- Category -->
+                <div class="col-md-3 mb-4">
+                    <a th:href="@{/models/add}" class="card align-items-center border-0 shadow text-decoration-none p-4">
+                <span class="icon-circle icon-circle-lg">
+                  <i class="bi bi-car-front"></i>
+                </span>
+                        <span class="text-dark mt-3">
+                  Dodaj model
+                </span>
+                    </a>
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-3 mb-4">
+                    <a th:href="@{/cars/add}" class="card align-items-center border-0 shadow text-decoration-none p-4">
+                <span class="icon-circle icon-circle-lg">
+                  <i class="bi bi-car-front-fill"></i>
+                </span>
+                        <span class="text-dark mt-3">
+                  Dodaj samochód
+                </span>
+                    </a>
+                </div>
+
+            </div>
+
+
+                <div class="row mt-6 justify-content-center">
+
+            <div sec:authorize="hasAuthority('EMPLOYEE')" class="col-md-3 mb-4">
+                <a th:href="@{/bookings(employeeId=${employee.id})}" class="card align-items-center border-0 shadow text-decoration-none p-4">
+                    <span class="icon-circle icon-circle-lg">
+                      <i class="bi bi-people-fill"></i>
+                    </span>
+                    <span class="text-dark mt-3">Moje wypożyczenia</span>
+                </a>
+            </div>
+
+            <!-- Category -->
+                <div sec:authorize="hasAuthority('ADMIN')" class="col-md-3 mb-4">
+                    <a th:href="@{/employees}" class="card align-items-center border-0 shadow text-decoration-none p-4">
+                <span class="icon-circle icon-circle-lg">
+                  <i class="bi bi-people-fill"></i>
+                </span>
+                        <span class="text-dark mt-3">
+                  Lista pracowników
+                </span>
+                    </a>
+                </div>
+
+                <div sec:authorize="hasAuthority('ADMIN')" class="col-md-3 mb-4">
+                    <a th:href="@{/bookings}" class="card align-items-center border-0 shadow text-decoration-none p-4">
+                <span class="icon-circle icon-circle-lg">
+                  <i class="bi bi-receipt"></i>
+                </span>
+                        <span class="text-dark mt-3">
+                  Lista wypożyczeń
+                </span>
+                    </a>
+                </div>
+
+                    <div sec:authorize="hasAuthority('ADMIN')" class="col-md-3 mb-4">
+                        <a th:href="@{/registerEmployee}" class="card align-items-center border-0 shadow text-decoration-none p-4">
+                <span class="icon-circle icon-circle-lg">
+                  <i class="bi bi-person-plus-fill"></i>
+                </span>
+                            <span class="text-dark mt-3">
+                  Dodaj pracownikia
+                </span>
+                        </a>
+                    </div>
+
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+<style>
+    .carousel-inner {
+        width: 100%;
+        height: auto;
+        max-height: 300px; /* Ustaw maksymalną wysokość obrazu */
+        object-fit: cover; /* Zapewnij, że obraz będzie wypełniał całe miejsce */
+    }
+</style>
+</head>
+<body>
+<div class="container">
+
+    <header th:insert="~{fragments/header :: header}"> </header>
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-5">
+                <div class="card mb-4 border-0 shadow p-4">
+                    <div class="card-body">
+                        <h5 class="card-title"><span th:text="${model.brand} + ' ' + ${model.model}"></span></h5>
+                        <p class="card-text"><span th:text="${model.description}"></span></p>
+                    </div>
+                </div>
+
+
+                <div class="card border-0 shadow p-4">
+                    <div class="card-header h5 font-weight-bold">
+                        Informacje o pojeździe
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>Marka:</b> <span th:text="${model.brand}"></span></li>
+                        <li class="list-group-item"><b>Model:</b> <span th:text="${model.model}"></span></li>
+                        <li class="list-group-item"><b>Liczba siedzeń:</b> <span th:text="${model.nOfSeats}"></span></li>
+                        <li class="list-group-item"><b>Rodzaj paliwa:</b> <span th:text="${model.fuelType.type}"></span></li>
+                        <li class="list-group-item"><b>Skrzynia biegów:</b> <span th:text="${model.transmitionType.type}"></span></li>
+                        <li class="list-group-item"><b>Wymagana kategoria:</b> <span th:text="${model.requiredCategory}"></span></li>
+                        <li class="list-group-item"><b>Cena za dzień:</b> <span th:text="${model.price}"></span></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="col-md-7">
+                <div class="row gy-5" th:if="${(model.images!=null and !model.images.isEmpty())}">
+                    <div id="carouselExampleIndicators" class="carousel slide m-5 mx-auto mb-4" data-bs-ride="carousel" style="width: 400px; height: 200px;">
+                        <div class="carousel-inner">
+
+                            <div class="carousel-item active">
+                                <img th:src="@{${model.imageDirectory + model.images[0].location}}" class="d-block w-100" alt="... " >
+                            </div>
+
+
+                            <div class="carousel-item" th:each="image: ${model.images}"  th:if="${image.location} != ${model.images[0].location}">
+                                <img th:src="@{${model.imageDirectory + image.location}}" class="img-fluid" alt="...">
+                            </div>
+
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="card mb-4 border-0 shadow p-4">
+                    <div class="card-body">
+
+                        <p class="card-text">
+                            Odkryj pełną swobodę podróżowania z naszymi samochodami! Bez względu na cel podróży – czy to romantyczna wycieczka, rodzinny wyjazd czy służbowy obowiązek – nasze pojazdy zawsze dostosowane są do Twoich potrzeb.
+                            <br><br><b>Zarezerwuj już dziś i doświadcz wolności na drodze, bez ograniczeń i stresu.</b>
+                        </p>
+
+                        <div class="row g-3 mb-2 align-items-center justify-content-center">
+                        <div sec:authorize="hasAnyAuthority('ADMIN', 'EMPLOYEE')" class="col-auto">
+                            <a th:href="@{/models/update(modelId=${model.id})}" class="btn btn-warning">Edytuj model</a>
+                        </div>
+
+                        <div sec:authorize="hasAuthority('CUSTOMER')" class="col-auto">
+                            <a th:href="@{/bookACar(modelId=${model.id})}" class="btn btn-primary">Zarezerwoj samochód</a>
+                        </div>
+
+                        <div sec:authorize="isAnonymous()" class="col-auto">
+                            <a th:href="@{/login}" class="btn btn-primary">Zaloguj sie zeby moc zazereworac</a>
+                        </div>
+
+
+                        <div class="col-auto">
+                            <a th:href="@{/models}" class="btn btn-info">Powrót do listy</a>
+                        </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

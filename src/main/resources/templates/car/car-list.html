@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+    <div class="container">
+        <header th:insert="~{fragments/header :: header}"> </header>
+
+    <h2>Lista samochodów</h2>
+
+        <a th:href="@{/cars/map}" class="btn btn-info mb-2 mt-2">Pokaż na mapie</a>
+
+    <table class="table table-hover table-striped">
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nr rejestracyjny</th>
+            <th>Model samochodu</th>
+            <th>Status</th>
+            <th>Szczegóły</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="car : ${cars}">
+            <td th:text="${car.id}"></td>
+            <td th:text="${car.registrationNumber}"></td>
+            <td th:text="${car.carModel.brand} + ' ' + ${car.carModel.model}"></td>
+            <td>
+                <span th:text="${car.carStatus.status}" th:if="${car.carStatus == T(com.upo.springtest.enums.CarStatus).IN_USE}" class="badge bg-success"></span>
+                <span th:text="${car.carStatus.status}" th:if="${car.carStatus == T(com.upo.springtest.enums.CarStatus).NEEDS_MAINTENANCE}" class="badge bg-warning"></span>
+                <span th:text="${car.carStatus.status}" th:if="${car.carStatus == T(com.upo.springtest.enums.CarStatus).IN_REPAIR}" class="badge bg-warning"></span>
+                <span th:text="${car.carStatus.status}" th:if="${car.carStatus == T(com.upo.springtest.enums.CarStatus).OUT_OF_SERVICE}" class="badge bg-danger"></span>
+            </td>
+
+            <td><a th:href="@{/cars/{id} (id = ${car.id})}" class="btn btn-info"><i class="bi bi-info-circle"></i> Info</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+
+<div class="container">
+    <header th:insert="~{fragments/header :: header}"> </header>
+    <div class="container d-flex justify-content-center">
+
+        <div class="card text-center border-0 shadow p-4 mb-4">
+            <div class="card-header">
+                <h4 class="card-title">Dodaj nowy model do floty</h4>
+
+            </div>
+
+            <div class="card-body">
+        <form th:action="@{/models/add}" method="post" th:object="${carModelDto}" enctype="multipart/form-data">
+
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="brand" class="form-label">Marka</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control" id="brand" name="brand"
+                           th:classappend="${#fields.hasErrors('brand')} ? 'is-invalid' : ''"
+                           th:field="*{brand}" placeholder="Podaj marke">
+                </div>
+                <div class="col-auto text text-danger">
+                    <p th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" />
+                </div>
+            </div>
+
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="brand" class="form-label">Model</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control" id="model" name="model"
+                           th:classappend="${#fields.hasErrors('model')} ? 'is-invalid' : ''"
+                           th:field="*{model}" placeholder="Podaj model">
+                </div>
+                <div class="col-auto text text-danger">
+                    <p th:if="${#fields.hasErrors('model')}" th:errors="*{model}" />
+                </div>
+            </div>
+
+
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="nOfSeats">Liczba siedzen</label>
+                </div>
+                <div class="col-auto">
+                    <input type="number" class="form-control" id="nOfSeats" name="nOfSeats"
+                           th:classappend="${#fields.hasErrors('nOfSeats')} ? 'is-invalid' : ''"
+                           th:field="*{nOfSeats}" placeholder="Podaj liczbe miejsc">
+                </div>
+                <div class="col-auto text text-danger">
+                    <p th:if="${#fields.hasErrors('nOfSeats')}" th:errors="*{nOfSeats}" />
+                </div>
+            </div>
+
+
+
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="fuelType">Rodzaj silnika</label>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" aria-label="Default select example" name="fuelType">
+                        <option th:each="ft : ${T(com.upo.springtest.enums.FuelType).values()}"
+                                th:text="${ft.type}"
+                                th:value="${ft}">
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="transmitionType">Rodzaj skrzyni biegów</label>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" aria-label="Default select example" name="transmitionType">
+                        <option th:each="tt : ${T(com.upo.springtest.enums.TransmitionType).values()}"
+                                th:text="${tt.type}"
+                                th:value="${tt}">
+                        </option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="requiredCategory">Wymagana kategoria prawa jazdy</label>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" aria-label="Default select example" name="requiredCategory">
+                        <option th:each="rc : ${T(com.upo.springtest.enums.Category).values()}"
+                                th:text="${rc}"
+                                th:value="${rc}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+
+
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="price">Cena</label>
+                </div>
+                <div class="col-auto">
+                    <input type="number" class="form-control" id="price" name="price"
+                           th:classappend="${#fields.hasErrors('price')} ? 'is-invalid' : ''"
+                           th:field="*{price}" placeholder="Podaj liczbe miejsc">
+                </div>
+                <div class="col-auto text text-danger">
+                    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" />
+                </div>
+            </div>
+
+
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="description">Opis</label>
+                </div>
+                <div class="col-auto">
+                    <textarea type="text" class="form-control" id="description" name="description"
+                           th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''"
+                           th:field="*{description}" placeholder="Wprowadź opis"> </textarea>
+                </div>
+                <div class="col-auto text text-danger">
+                    <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
+                </div>
+            </div>
+
+            <div class="row g-3 mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="img" class="form-label">Zdjęcia</label>
+                </div>
+                <div class="col-auto">
+                    <input type="file" name="img" accept="image/*" class="form-control-file" multiple="multiple" >
+                </div>
+                </div>
+
+
+            <div class="row g-3 mb-2 align-items-center justify-content-center">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-success">Dodaj model</button>
+                </div>
+
+                <div class="col-auto">
+                    <a th:href="@{/models}" class="btn btn-info">Powrót do listy</a>
+                </div>
+            </div>
+
+        </form>
+
+        </div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var bookingStatus = /*[[${bookingStatus}]]*/ null;
+            if (bookingStatus !== null) {
+                document.getElementById('bookingStatus').value = bookingStatus;
+            }
+        });
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <header th:insert="~{fragments/header :: header}"> </header>
+
+    <div th:if="${bookingPage.totalPages == 0}">
+        <h2>Brak wypożyczeń</h2>
+    </div>
+
+
+    <form th:action="@{/bookings}" method="get">
+        <!-- Obecne parametry jako ukryte pola -->
+        <input type="hidden" name="customerId" th:if="${customer != null}" th:value="${customer.id}" />
+        <input type="hidden" name="employeeId" th:if="${employee != null}" th:value="${employee.id}" />
+        <input type="hidden" name="carId" th:if="${car != null}" th:value="${car.id}" />
+        <!-- Dodane pole dla bookingStatus -->
+        <label for="bookingStatus">Filtruj po statusie wypożyczenia:</label>
+        <select class="form-select" id="bookingStatus" name="bookingStatus" onchange="this.form.submit()">
+            <option value="" th:selected="${bookingStatus}">Wszystkie</option>
+            <option value="ACTIVE" th:selected="${bookingStatus}">Aktywne</option>
+            <option value="CANCELED" th:selected="${bookingStatus}">Anulowane</option>
+            <option value="FINISHED" th:selected="${bookingStatus}">Zakończone</option>
+            <!-- Add more options if needed -->
+        </select>
+    </form>
+
+
+
+
+    <table class="table table-hover table-striped">
+
+            <div th:if="${bookingPage.totalPages > 0}">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data wypożyczenia</th>
+                        <th>Data zwrotu</th>
+                        <th>Wypożyczony samochód</th>
+                        <th>ID klienta</th>
+                        <th>ID pracownika</th>
+                        <th>Miejsce odbioru</th>
+                        <th>Miejsce zwrotu</th>
+                        <th>Status</th>
+                        <th>Szczegóły</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="b, iStat : ${bookingPage.content}">
+                        <td th:text="${b.id}"></td>
+                        <td th:text="${b.pickupDate}"></td>
+                        <td th:text="${b.returnDate}"></td>
+                        <td th:text="${b.car.registrationNumber}"></td>
+                        <td th:text="${b.customer.id}"></td>
+                        <td th:text="${b.employee.position != T(com.upo.springtest.enums.EmployeePosition).DELETED} ? ${b.employee.id} : 'Nie istnieje'"></td>
+                        <td th:text="${b.pickupLocation.name}"></td>
+                        <td th:text="${b.returnLocation.name}"></td>
+                        <td>
+                            <span th:text="${b.bookingStatus.status}" th:if="${b.bookingStatus == T(com.upo.springtest.enums.BookingStatus).ACTIVE}" class="badge bg-success"></span>
+                            <span th:text="${b.bookingStatus.status}" th:if="${b.bookingStatus == T(com.upo.springtest.enums.BookingStatus).CANCELED}" class="badge bg-warning"></span>
+                            <span th:text="${b.bookingStatus.status}" th:if="${b.bookingStatus == T(com.upo.springtest.enums.BookingStatus).FINISHED}" class="badge bg-danger"></span>
+                        </td>
+
+                        <td><a th:href="@{/bookings/{id} (id = ${b.id})}" class="btn btn-info"><i class="bi bi-info-circle"></i> Info</a></td>
+
+                    </tr>
+                </tbody>
+
+            </div>
+        </table>
+
+
+        <th:block th:insert="~{fragments/bookings-paging}"></th:block>
+
+        <a th:href="@{/}" class="btn btn-primary mt-4">Powrót do strony głównej</a>
+
+
+    </div>
+
+</body>
+</html>
+

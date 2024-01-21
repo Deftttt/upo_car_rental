@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Upo Rental</title>
+    <th:block th:insert="~{fragments/common-resources :: head}"></th:block>
+</head>
+<body>
+<div class="container">
+    <header th:insert="~{fragments/header :: header}"> </header>
+        <table class="table table-hover table-striped">
+
+            <div th:if="${ not#lists.isEmpty(employees)}">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Imie</th>
+                        <th>Nazwisko</th>
+                        <th>Email</th>
+                        <th>Stanowisko</th>
+                        <th>Więcej informacji</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="e : ${employees}" th:unless="${e.position == T(com.upo.springtest.enums.EmployeePosition).DELETED}">
+                        <td th:text="${e.id}"></td>
+                        <td th:text="${e.user.firstName}"></td>
+                        <td th:text="${e.user.lastName}"></td>
+                        <td th:text="${e.user.email}"></td>
+                        <td th:text="${e.position.position}"></td>
+                        <td><a th:href="@{/employees/{id} (id = ${e.id})}" class="btn btn-info"><i class="bi bi-info-circle"></i> Info</a></td>
+                    </tr>
+                </tbody>
+
+            </div>
+
+
+        </table>
+    </div>
+</body>
+</html>
+
+
+
